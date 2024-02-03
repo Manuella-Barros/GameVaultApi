@@ -4,10 +4,15 @@ import {LoginController} from "../../controllers/users/login.controller";
 import {CreateUserUseCase} from "../../../app/useCases/users/createUserUseCase";
 import {PrismaUsersRepository} from "../../../app/repositories/prisma/PrismaUsersRepository";
 
-
 @Module({
     imports: [],
     controllers: [CreateUserController, LoginController],
-    providers: [CreateUserUseCase, PrismaUsersRepository],
+    providers: [
+        {
+            provide: "IUsersRepository",
+            useClass: PrismaUsersRepository,
+        },
+        CreateUserUseCase
+    ],
 })
 export class UsersModule {}
