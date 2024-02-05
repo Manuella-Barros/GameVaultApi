@@ -1,4 +1,4 @@
-import {IUsersRepository} from "../../../domain/repositories/IUsersRepository";
+import {IUsersRepository} from "../../../domain/repositories/IUsers.repository";
 import {Injectable} from "@nestjs/common";
 
 @Injectable()

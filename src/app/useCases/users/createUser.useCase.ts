@@ -1,6 +1,6 @@
 import {PrismaUsersRepository} from "../../repositories/prisma/PrismaUsersRepository";
 import {Inject, Injectable} from "@nestjs/common";
-import {IUsersRepository} from "../../../domain/repositories/IUsersRepository";
+import {IUsersRepository} from "../../../domain/repositories/IUsers.repository";
 
 @Injectable()
 export class CreateUserUseCase {
