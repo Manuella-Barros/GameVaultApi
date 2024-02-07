@@ -6,12 +6,9 @@ import {UserDto} from "../../../domain/dto/users/user.dto";
 @Injectable()
 export class PrismaUsersRepository extends PrismaClient implements IUsersRepository, OnModuleInit, OnModuleDestroy{
     async createUser(data: UserDto) {
-        await this.user.create({ data })
-        return
+        return this.user.create({ data })
     }
-    getUserByID() {
-
-    }
+    getUserByID() {}
     loginUser() {}
     onModuleInit() { this.$connect() }
     onModuleDestroy() { this.$disconnect() }
