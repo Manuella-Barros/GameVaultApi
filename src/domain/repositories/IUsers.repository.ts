@@ -1,5 +1,7 @@
+import {UserDto} from "../dto/users/user.dto";
+
 export interface IUsersRepository{
-    createUser()
+    createUser(data: UserDto)
     getUserByID()
     loginUser()
 }

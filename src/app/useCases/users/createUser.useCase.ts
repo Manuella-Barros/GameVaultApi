@@ -1,11 +1,15 @@
-import {PrismaUsersRepository} from "../../repositories/prisma/PrismaUsersRepository";
 import {Inject, Injectable} from "@nestjs/common";
 import {IUsersRepository} from "../../../domain/repositories/IUsers.repository";
+import {UserDto} from "../../../domain/dto/users/user.dto";
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CreateUserUseCase {
     constructor(@Inject("IUsersRepository") private usersRepository: IUsersRepository) {}
-    execute(){
-        return this.usersRepository.createUser()
+    async execute(data: UserDto){
+        const { password, ...userInfo} = data;
+        const encryptedPassword = await bcrypt.hash(password, 6)
+
+        return this.usersRepository.createUser({...userInfo, password: encryptedPassword})
     }
 }

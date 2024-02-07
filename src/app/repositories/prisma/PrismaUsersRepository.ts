@@ -1,12 +1,19 @@
 import {IUsersRepository} from "../../../domain/repositories/IUsers.repository";
-import {Injectable} from "@nestjs/common";
+import {Injectable, OnModuleDestroy, OnModuleInit} from "@nestjs/common";
+import {PrismaClient} from "@prisma/client";
+import {UserDto} from "../../../domain/dto/users/user.dto";
 
 @Injectable()
-export class PrismaUsersRepository implements IUsersRepository{
-    createUser() {
-        return "foooiii"
+export class PrismaUsersRepository extends PrismaClient implements IUsersRepository, OnModuleInit, OnModuleDestroy{
+    async createUser(data: UserDto) {
+        await this.user.create({ data })
+        return
     }
-    getUserByID() {}
+    getUserByID() {
+
+    }
     loginUser() {}
+    onModuleInit() { this.$connect() }
+    onModuleDestroy() { this.$disconnect() }
 
 }
