@@ -5,6 +5,7 @@ import axios, {AxiosInstance} from "axios";
 @Injectable()
 export class IGDBRepository implements IGamesRepository{
     private igdb; // guarda a url base e as autorizações
+    private platformsFilter = "platforms = (8, 6, 130, 11, 41, 9, 48, 167, 169, 12)"
 
     constructor() {
         this.auth()
@@ -36,7 +37,7 @@ export class IGDBRepository implements IGamesRepository{
 
             do { // verifica se a query retornou algo
                 offset = this.getRandomInt(1, count)
-                game = await this.getIGDBGame(offset, this.igdb)
+                game = await this.getIGDBGame(offset, 1, this.igdb)
 
             } while (this.isEmptyObject(game))
 
@@ -45,8 +46,6 @@ export class IGDBRepository implements IGamesRepository{
             console.error(err)
         }
     }
-
-
 
     // pega um número aleatório
     private getRandomInt(min: number, max: number) {
@@ -71,16 +70,16 @@ export class IGDBRepository implements IGamesRepository{
         }
     }
 
-    private async getIGDBGame(offset, api: AxiosInstance) {
+    private async getIGDBGame(offset, limit, api: AxiosInstance) {
         try {
-            const query = `
-                                    fields id, name, genres.name, cover.url, summary, storyline, first_release_date, involved_companies.company.name, platforms.name, total_rating; 
-                                    where cover != null, name != null;
-                                    limit 1; 
-                                    offset ${offset};
-                                  `
-            const response = await api.post('games', query)
-            return response.data[0]
+            const fields = " id, name, genres.name, cover.url, summary, storyline, first_release_date, involved_companies.company.name, platforms.name"
+            const filter = `cover != null & name != null & ${this.platformsFilter}`;
+            const query = `fields ${fields}; where ${filter}; limit ${limit}; offset ${offset};`
+
+            const {data} = await api.post('games', query)
+            data[0].cover.url = data[0].cover.url.replace("t_thumb", "t_720p"); //pegando imagem de qualidade melhor
+
+            return data[0];
         } catch (err) {
             console.error(err)
         }
