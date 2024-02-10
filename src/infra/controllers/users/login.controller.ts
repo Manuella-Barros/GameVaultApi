@@ -13,16 +13,10 @@ export class LoginController {
     @UsePipes(ZodValidationPipe)
     async handle(@Body() {email, password}: LoginDto){
         const user = await this.loginUseCase.execute({email, password});
+        const {access_token} = await this.generateTokenUseCase.execute(user.id);
 
-        if(!user){
-            // throw new BadRequestException({
-            //     message: "Email e/ou Senha incorretos",
-            //     status: 400,
-            // })
-            throw new ConflictException("Opa foi errado")
+        return {
+            access_token, user
         }
-
-        return await this.generateTokenUseCase.execute(user.id);
-
     }
 }

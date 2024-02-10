@@ -38,7 +38,6 @@ export class IGDBRepository implements IGamesRepository{
             do { // verifica se a query retornou algo
                 offset = this.getRandomInt(1, count)
                 game = await this.getIGDBGame(offset, 1, this.igdb)
-
             } while (this.isEmptyObject(game))
 
             return game;
@@ -72,12 +71,15 @@ export class IGDBRepository implements IGamesRepository{
 
     private async getIGDBGame(offset, limit, api: AxiosInstance) {
         try {
-            const fields = " id, name, genres.name, cover.url, summary, storyline, first_release_date, involved_companies.company.name, platforms.name"
-            const filter = `cover != null & name != null & ${this.platformsFilter}`;
-            const query = `fields ${fields}; where ${filter}; limit ${limit}; offset ${offset};`
+            const fields = "id, name, genres.name, cover.url, summary, storyline, first_release_date, platforms.name"
+            const requiredFields = `genres.name != null & cover.url != null & summary != null & first_release_date != null & platforms.name != null`
+            const query = `fields ${fields}; where ${requiredFields} & ${this.platformsFilter}; limit ${limit}; offset ${offset};`
 
             const {data} = await api.post('games', query)
-            data[0].cover.url = data[0].cover.url.replace("t_thumb", "t_720p"); //pegando imagem de qualidade melhor
+            data[0].cover.url = "https:" + data[0].cover.url.replace("t_thumb", "t_720p"); //pegando imagem de qualidade melhor
+            if(data[0].first_release_date){
+                data[0].first_release_date = new Date(data[0].first_release_date).toLocaleDateString("pt-BR")
+            }
 
             return data[0];
         } catch (err) {
