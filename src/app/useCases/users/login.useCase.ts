@@ -18,8 +18,6 @@ export class LoginUseCase {
             })
         }
 
-        const {password, ...userInfo} = user
-
-        return userInfo;
+        return user;
     }
 }

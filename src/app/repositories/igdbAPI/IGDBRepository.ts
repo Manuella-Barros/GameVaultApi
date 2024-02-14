@@ -3,12 +3,34 @@ import {IGamesRepository} from "../../../domain/repositories/IGames.repository";
 import axios, {AxiosInstance} from "axios";
 
 @Injectable()
-export class IGDBRepository implements IGamesRepository{
+export class IGDBRepository implements IGamesRepository {
     private igdb; // guarda a url base e as autorizações
     private platformsFilter = "platforms = (8, 6, 130, 11, 41, 9, 48, 167, 169, 12)"
 
     constructor() {
         this.auth()
+    }
+
+    async getRandomGame() {
+        try {
+            let offset: number, game;
+            const { count } = await this.getCount(this.igdb, 'where rating > 80;') // qnt de jogos com o raing > 80
+
+            do { // verifica se a query retornou algo
+                offset = this.getRandomInt(1, count)
+                game = await this.getIGDBGame(offset, 1, this.igdb)
+            } while (this.isEmptyObject(game))
+
+            return game;
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    async getAllGenres(){
+         const {data} = await this.igdb.post('genres', "fields id, name; limit 70;")
+
+        return data
     }
 
     private async auth() {
@@ -28,22 +50,6 @@ export class IGDBRepository implements IGamesRepository{
                 'Client-ID': `slh1wjzsta1qkzrhdklf8szk6m8yiz`,
             },
         })
-    }
-
-    async getRandomGame() {
-        try {
-            let offset: number, game;
-            const { count } = await this.getCount(this.igdb, 'where rating > 80;') // qnt de jogos com o raing > 80
-
-            do { // verifica se a query retornou algo
-                offset = this.getRandomInt(1, count)
-                game = await this.getIGDBGame(offset, 1, this.igdb)
-            } while (this.isEmptyObject(game))
-
-            return game;
-        } catch (err) {
-            console.error(err)
-        }
     }
 
     // pega um número aleatório

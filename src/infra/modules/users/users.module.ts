@@ -5,10 +5,12 @@ import {CreateUserUseCase} from "../../../app/useCases/users/createUser.useCase"
 import {PrismaUsersRepository} from "../../../app/repositories/prisma/PrismaUsersRepository";
 import {LoginUseCase} from "../../../app/useCases/users/login.useCase";
 import {AuthModule} from "../auth/auth.module";
+import {GetUserByIDController} from "../../controllers/users/getUserByID.controller";
+import {GetUserByIDUseCase} from "../../../app/useCases/users/getUserByID.useCase";
 
 @Module({
     imports: [AuthModule],
-    controllers: [CreateUserController, LoginController],
+    controllers: [CreateUserController, LoginController, GetUserByIDController],
     providers: [
         {
             provide: "IUsersRepository",
@@ -16,6 +18,7 @@ import {AuthModule} from "../auth/auth.module";
         },
         CreateUserUseCase,
         LoginUseCase,
+        GetUserByIDUseCase
     ],
 })
 export class UsersModule {}

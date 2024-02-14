@@ -9,9 +9,9 @@ export const userSchema = z.object({
     password:
         z.string({required_error: "Campo obrigatório"}),
     favGenre1:
-        z.coerce.number({required_error: "Campo obrigatório", invalid_type_error: "Campo obrigatório"}),
+        z.string({required_error: "Campo obrigatório", invalid_type_error: "Campo obrigatório"}),
     favGenre2:
-        z.coerce.number({required_error: "Campo obrigatório", invalid_type_error: "Campo obrigatório"}),
+        z.string({required_error: "Campo obrigatório", invalid_type_error: "Campo obrigatório"}),
     favGame:
         z.string({required_error: "Campo obrigatório"})
 })

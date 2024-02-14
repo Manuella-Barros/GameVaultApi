@@ -15,8 +15,8 @@ model user {
   name      String
   email     String   @unique
   password  String
-  favGenre1 Int
-  favGenre2 Int
+  favGenre1 String
+  favGenre2 String
   favGame   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
