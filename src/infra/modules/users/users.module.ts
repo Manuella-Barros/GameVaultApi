@@ -7,10 +7,12 @@ import {LoginUseCase} from "../../../app/useCases/users/login.useCase";
 import {AuthModule} from "../auth/auth.module";
 import {GetUserByIDController} from "../../controllers/users/getUserByID.controller";
 import {GetUserByIDUseCase} from "../../../app/useCases/users/getUserByID.useCase";
+import {CreateRatingController} from "../../controllers/users/createRating.controller";
+import {CreateRatingUseCase} from "../../../app/useCases/users/createRating.useCase";
 
 @Module({
     imports: [AuthModule],
-    controllers: [CreateUserController, LoginController, GetUserByIDController],
+    controllers: [CreateUserController, LoginController, GetUserByIDController, CreateRatingController],
     providers: [
         {
             provide: "IUsersRepository",
@@ -18,7 +20,8 @@ import {GetUserByIDUseCase} from "../../../app/useCases/users/getUserByID.useCas
         },
         CreateUserUseCase,
         LoginUseCase,
-        GetUserByIDUseCase
+        GetUserByIDUseCase,
+        CreateRatingUseCase,
     ],
 })
 export class UsersModule {}

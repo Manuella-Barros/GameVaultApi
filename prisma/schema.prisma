@@ -10,14 +10,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  id        String   @unique @default(uuid())
+model User {
+  id        String    @unique @default(uuid())
   name      String
-  email     String   @unique
+  email     String    @unique
   password  String
   favGenre1 String
   favGenre2 String
   favGame   String
+  rating    Rating[]
+  comment   Comment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
+}
+
+model Rating {
+  id        String   @unique @default(uuid())
+  stars     Int
+  gameID    Int
+  user      User     @relation(references: [id], fields: [userID], onDelete: Cascade, onUpdate: Cascade)
+  userID    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+model Comment {
+  id        String   @unique @default(uuid())
+  text      String
+  likes     Int
+  dislikes  Int
+  gameID    Int
+  user      User     @relation(references: [id], fields: [userID], onDelete: Cascade, onUpdate: Cascade)
+  userID    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 }
