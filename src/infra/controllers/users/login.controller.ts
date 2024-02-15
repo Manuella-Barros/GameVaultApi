@@ -1,4 +1,13 @@
-import {BadRequestException, Body, ConflictException, Controller, Get, Post, UsePipes} from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    ConflictException,
+    Controller,
+    Get,
+    HttpException, HttpStatus,
+    Post,
+    UsePipes
+} from '@nestjs/common';
 import {LoginUseCase} from "../../../app/useCases/users/login.useCase";
 import {LoginDto} from "../../../domain/dto/users/login.dto";
 import {ZodValidationPipe} from "nestjs-zod";

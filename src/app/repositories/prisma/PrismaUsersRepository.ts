@@ -7,6 +7,8 @@ import {UserEntity} from "../../../domain/entities/user.entity";
 import * as bcrypt from "bcrypt";
 import {RatingDto} from "../../../domain/dto/users/rating.dto";
 import {RatingEntity} from "../../../domain/entities/rating.entity";
+import {CommentDto} from "../../../domain/dto/users/comment.dto";
+import {CommentEntity} from "../../../domain/entities/comment.entity";
 
 @Injectable()
 export class PrismaUsersRepository extends PrismaClient implements IUsersRepository, OnModuleInit, OnModuleDestroy{
@@ -32,10 +34,6 @@ export class PrismaUsersRepository extends PrismaClient implements IUsersReposit
         return user;
     }
 
-    getUserByEmail(email: string){
-        return this.user.findUnique({ where: {email} })
-    }
-
     async getUserByID(id: string): Promise<null | UserEntity> {
         const user = await this.user.findUnique({
             where: {id},
@@ -46,6 +44,10 @@ export class PrismaUsersRepository extends PrismaClient implements IUsersReposit
 
     createRating(data: RatingDto): Promise<RatingEntity>{
         return this.rating.create({data})
+    }
+
+    createComment(data: CommentDto): Promise<CommentEntity>{
+        return this.comment.create({data})
     }
 
     onModuleInit() { this.$connect() }
