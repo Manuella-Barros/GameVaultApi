@@ -12,4 +12,5 @@ export interface IUsersRepository{
     getUserByID(id: string): Promise<null | UserEntity>
     createRating(data: RatingDto): Promise<RatingEntity>
     createComment(data: CommentDto): Promise<CommentEntity>
+    getRatings(userID: string, take: number, skip: number): Promise<RatingEntity[]>
 }

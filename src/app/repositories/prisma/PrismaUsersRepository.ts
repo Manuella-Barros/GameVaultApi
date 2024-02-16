@@ -50,6 +50,15 @@ export class PrismaUsersRepository extends PrismaClient implements IUsersReposit
         return this.comment.create({data})
     }
 
+    getRatings(userID: string, take: number, skip: number): Promise<RatingEntity[]>{
+        return this.rating.findMany({
+            take,
+            skip,
+            where: { userID },
+            orderBy: { gameID: "asc"}
+        })
+    }
+
     onModuleInit() { this.$connect() }
     onModuleDestroy() { this.$disconnect() }
 

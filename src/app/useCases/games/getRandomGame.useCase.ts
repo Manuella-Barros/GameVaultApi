@@ -5,7 +5,12 @@ import {Inject, Injectable} from "@nestjs/common";
 export class GetRandomGameUseCase{
     constructor(@Inject("IGamesRepository") private gamesRepository: IGamesRepository) {}
 
-    execute() {
-        return this.gamesRepository.getRandomGame();
+    async execute() {
+        const game = await this.gamesRepository.getRandomGame();
+
+        game.cover.url = "https:" + game.cover.url.replace("t_thumb", "t_720p"); //pegando imagem de qualidade melhor
+        game.first_release_date = new Date(game.first_release_date).toLocaleDateString("pt-BR")
+
+        return game
     }
 }
