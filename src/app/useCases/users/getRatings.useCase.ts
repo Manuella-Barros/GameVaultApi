@@ -15,6 +15,9 @@ export class GetRatingsUseCase {
         const games: GameDto[] = await this.gamesRepository.getRatings(ratings);
 
         const ratingsGames = ratings.map((rating, i) => {
+            games[i].cover.url = `https:${games[i].cover.url}`;
+            games[i].cover.url = games[i].cover.url.replace("thumb", "logo_med")
+
             return {
                 rating: rating,
                 game: games[i]
