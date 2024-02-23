@@ -23,6 +23,7 @@ export class GetRatingsUseCase {
                 game: games[i]
             }
         })
+
         ratingsGames.sort(function(a, b){
             return Number(b.rating.updatedAt) - Number(a.rating.updatedAt)
         });
