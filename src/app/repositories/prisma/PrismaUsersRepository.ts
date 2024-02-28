@@ -42,23 +42,6 @@ export class PrismaUsersRepository extends PrismaClient implements IUsersReposit
         return user
     }
 
-    createRating(data: RatingDto): Promise<RatingEntity>{
-        return this.rating.create({data})
-    }
-
-    createComment(data: CommentDto): Promise<CommentEntity>{
-        return this.comment.create({data})
-    }
-
-    getRatings(userID: string, take: number, skip: number): Promise<RatingEntity[]>{
-        return this.rating.findMany({
-            take,
-            skip,
-            where: { userID },
-            orderBy: { gameID: "asc"}
-        })
-    }
-
     onModuleInit() { this.$connect() }
     onModuleDestroy() { this.$disconnect() }
 

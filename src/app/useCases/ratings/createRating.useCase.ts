@@ -1,10 +1,10 @@
 import {Inject, Injectable} from "@nestjs/common";
-import {IUsersRepository} from "../../../domain/repositories/IUsers.repository";
 import {RatingDto} from "../../../domain/dto/users/rating.dto";
+import {IRatingsRepository} from "../../../domain/repositories/IRatings.repository";
 
 @Injectable()
 export class CreateRatingUseCase {
-    constructor(@Inject("IUsersRepository") private usersRepository: IUsersRepository) {}
+    constructor(@Inject("IRatingsRepository") private usersRepository: IRatingsRepository) {}
 
     execute(data: RatingDto){
         return this.usersRepository.createRating(data)

@@ -1,17 +1,22 @@
 import {Inject, Injectable} from "@nestjs/common";
-import {IUsersRepository} from "../../../domain/repositories/IUsers.repository";
 import {GameDto} from "../../../domain/dto/games/game.dto";
 import {IGamesRepository} from "../../../domain/repositories/IGames.repository";
 import {RatingGameDto} from "../../../domain/dto/users/rating.dto";
+import {IRatingsRepository} from "../../../domain/repositories/IRatings.repository";
 
 @Injectable()
 export class GetRatingsUseCase {
     constructor(
-        @Inject("IUsersRepository") private usersRepository: IUsersRepository,
+        @Inject("IRatingsRepository") private ratingRepository: IRatingsRepository,
         @Inject("IGamesRepository") private gamesRepository: IGamesRepository
     ) {}
+
     async execute(data: string): Promise<RatingGameDto[]>{
-        const ratings = await this.usersRepository.getRatings(data, 10, 0);
+        const ratings = await this.ratingRepository.getRatings(data, 10, 0);
+
+        if(ratings.length == 0)
+            return []
+
         const games: GameDto[] = await this.gamesRepository.getRatings(ratings);
 
         const ratingsGames = ratings.map((rating, i) => {

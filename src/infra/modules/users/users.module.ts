@@ -7,13 +7,6 @@ import {LoginUseCase} from "../../../app/useCases/users/login.useCase";
 import {AuthModule} from "../auth/auth.module";
 import {GetUserByIDController} from "../../controllers/users/getUserByID.controller";
 import {GetUserByIDUseCase} from "../../../app/useCases/users/getUserByID.useCase";
-import {CreateRatingController} from "../../controllers/users/createRating.controller";
-import {CreateRatingUseCase} from "../../../app/useCases/users/createRating.useCase";
-import {CreateCommentController} from "../../controllers/users/createComment.controller";
-import {CreateCommentUseCase} from "../../../app/useCases/users/createComment.useCase";
-import {GetRatingsController} from "../../controllers/users/getRatings.controller";
-import {GetRatingsUseCase} from "../../../app/useCases/users/getRatings.useCase";
-import {IGDBRepository} from "../../../app/repositories/igdbAPI/IGDBRepository";
 
 @Module({
     imports: [AuthModule],
@@ -21,25 +14,15 @@ import {IGDBRepository} from "../../../app/repositories/igdbAPI/IGDBRepository";
         CreateUserController,
         LoginController,
         GetUserByIDController,
-        CreateRatingController,
-        CreateCommentController,
-        GetRatingsController
     ],
     providers: [
         {
             provide: "IUsersRepository",
             useClass: PrismaUsersRepository,
         },
-        {
-            provide: "IGamesRepository",
-            useClass: IGDBRepository,
-        },
         CreateUserUseCase,
         LoginUseCase,
         GetUserByIDUseCase,
-        CreateRatingUseCase,
-        CreateCommentUseCase,
-        GetRatingsUseCase
     ],
 })
 export class UsersModule {}

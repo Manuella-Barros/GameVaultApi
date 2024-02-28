@@ -1,9 +1,9 @@
 import {Body, Controller, Injectable, Post, UsePipes} from "@nestjs/common";
-import {CreateRatingUseCase} from "../../../app/useCases/users/createRating.useCase";
+import {CreateRatingUseCase} from "../../../app/useCases/ratings/createRating.useCase";
 import {RatingDto} from "../../../domain/dto/users/rating.dto";
 import {ZodValidationPipe} from "nestjs-zod";
 
-@Controller("/users")
+@Controller("/ratings")
 export class CreateRatingController {
     constructor(private createRatingUseCase: CreateRatingUseCase) {}
 
